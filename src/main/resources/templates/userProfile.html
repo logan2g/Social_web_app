@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{default}">
+<head>
+    <title>
+        Страницы
+    </title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Фамилия</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="userProfile, iterator: ${userProfile}">
+                <th scope="row" th:text="${iterator.index} + 1"/>
+                <td th:text="${userProfile.Id}"/>
+                <td th:text="${userProfile.name}"/>
+                <td th:text="${userProfile.surname}"/>
+                <td style="width: 10%">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-warning button-fixed button-sm"
+                           th:href="@{/userProfile/edit/{id}(id=${userProfile.Id})}">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> Изменить
+                        </a>
+                        <button type="button" class="btn btn-danger button-fixed button-sm"
+                                th:attr="onclick=|confirm('Удалить запись?') && document.getElementById('remove-${userProfile.Id}').click()|">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Удалить
+                        </button>
+                    </div>
+                    <form th:action="@{/userProfile/delete/{id}(id=${userProfile.Id})}" method="post">
+                        <button th:id="'remove-' + ${userProfile.Id}" type="submit" style="display: none">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <a class="btn btn-success button-fixed"
+           th:href="@{/userProfile/edit/}">
+            <i class="fa-solid fa-plus"></i> Добавить страницу
+        </a>
+    </div>
+</div>
+</body>
+</html>

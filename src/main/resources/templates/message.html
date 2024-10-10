@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{default}">
+<head>
+    <title>
+        Сообщения
+    </title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">ID</th>
+                <th scope="col">Текст</th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="message, iterator: ${message}">
+                <th scope="row" th:text="${iterator.index} + 1"/>
+                <td th:text="${message.Id}"/>
+                <td th:text="${message.text}"/>
+                <td style="width: 10%">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        <a class="btn btn-warning button-fixed button-sm"
+                           th:href="@{/message/edit/{id}(id=${message.Id})}">
+                            <i class="fa fa-pencil" aria-hidden="true"></i> Изменить
+                        </a>
+                        <button type="button" class="btn btn-danger button-fixed button-sm"
+                                th:attr="onclick=|confirm('Удалить запись?') && document.getElementById('remove-${message.Id}').click()|">
+                            <i class="fa fa-trash" aria-hidden="true"></i> Удалить
+                        </button>
+                    </div>
+                    <form th:action="@{/message/delete/{id}(id=${message.Id})}" method="post">
+                        <button th:id="'remove-' + ${message.Id}" type="submit" style="display: none">
+                            Удалить
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <a class="btn btn-success button-fixed"
+           th:href="@{/message/edit/}">
+            <i class="fa-solid fa-plus"></i> Добавить сообщение
+        </a>
+    </div>
+</div>
+</body>
+</html>
