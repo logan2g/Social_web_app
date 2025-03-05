@@ -4,3 +4,11 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
+  back:
+      image: postgres
+      environment:
+        POSTGRES_DB: "socialNet"
+        POSTGRES_USER: "Admin"
+        POSTGRES_PASSWORD: "Password"
+      ports:
+        - "5432:5432"
